@@ -207,8 +207,8 @@ export default function App() {
 
   // --- Render ---
   return (
-    <div className="flex gap-6 p-6 font-sans">
-      <div className="w-2/5 bg-white rounded-2xl shadow p-5 space-y-4">
+    <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6 font-sans min-h-screen">
+      <div className="w-full lg:w-2/5 bg-white rounded-2xl shadow p-4 lg:p-5 space-y-4">
         <h2 className="text-lg font-semibold">Datos de la encuesta</h2>
         <label className="block">
           <span className="text-sm">Título</span>
@@ -281,22 +281,23 @@ export default function App() {
 
         <div className="pt-4">
           <h3 className="font-medium">Pasos (máx 4)</h3>
-          <div className="flex gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-2">
             {steps.map((s, i) => (
               <button
                 key={s.id}
-                className={`px-3 py-1 rounded ${i === activeStepIdx ? "bg-indigo-600 text-white" : "bg-gray-100"}`}
+                className={`px-2 sm:px-3 py-1 rounded text-sm ${i === activeStepIdx ? "bg-indigo-600 text-white" : "bg-gray-100"}`}
                 onClick={() => setActiveStepIdx(i)}
               >
-                Paso {i + 1}
+                <span className="hidden sm:inline">Paso </span>{i + 1}
               </button>
             ))}
             <button
               onClick={addStep}
               disabled={steps.length >= 4}
-              className="ml-auto px-3 py-1 rounded bg-green-500 text-white"
+              className="ml-auto px-2 sm:px-3 py-1 rounded bg-green-500 text-white text-sm"
             >
-              + Añadir
+              <span className="hidden sm:inline">+ Añadir</span>
+              <span className="sm:hidden">+</span>
             </button>
           </div>
         </div>
@@ -347,9 +348,9 @@ export default function App() {
                     {steps[activeStepIdx].options.map((opt) => (
                       <div
                         key={opt.id}
-                        className="border rounded p-2 flex gap-3 items-start"
+                        className="border rounded p-2 flex flex-col sm:flex-row gap-3 items-start"
                       >
-                        <div className="w-20 h-20 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                        <div className="w-full sm:w-20 h-20 bg-gray-100 rounded overflow-hidden flex-shrink-0">
                           {opt.image ? (
                             <img
                               src={opt.image.url}
@@ -383,13 +384,14 @@ export default function App() {
                             placeholder="Descripción"
                             className="w-full rounded-md border p-1 mt-1"
                           />
-                          <div className="flex gap-2 mt-2">
-                            <div className="flex-1">
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            <div className="flex-1 min-w-0">
                               <label className="flex items-center justify-center px-3 py-1 border border-gray-300 rounded cursor-pointer hover:bg-gray-50 text-xs">
                                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                {opt.image ? 'Cambiar' : 'Imagen'}
+                                <span className="hidden sm:inline">{opt.image ? 'Cambiar' : 'Imagen'}</span>
+                                <span className="sm:hidden">📷</span>
                                 <input
                                   type="file"
                                   accept="image/*"
@@ -408,7 +410,7 @@ export default function App() {
                               onClick={() =>
                                 moveOption(activeStepIdx, opt.id, -1)
                               }
-                              className="px-2 rounded bg-gray-200 hover:bg-gray-300"
+                              className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 text-xs"
                             >
                               ↑
                             </button>
@@ -416,7 +418,7 @@ export default function App() {
                               onClick={() =>
                                 moveOption(activeStepIdx, opt.id, +1)
                               }
-                              className="px-2 rounded bg-gray-200 hover:bg-gray-300"
+                              className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 text-xs"
                             >
                               ↓
                             </button>
@@ -424,9 +426,10 @@ export default function App() {
                               onClick={() =>
                                 removeOption(activeStepIdx, opt.id)
                               }
-                              className="px-2 rounded bg-red-200 hover:bg-red-300"
+                              className="px-2 py-1 rounded bg-red-200 hover:bg-red-300 text-xs"
                             >
-                              Eliminar
+                              <span className="hidden sm:inline">Eliminar</span>
+                              <span className="sm:hidden">🗑</span>
                             </button>
                           </div>
                         </div>
@@ -485,16 +488,17 @@ export default function App() {
                 </div>
               )}
 
-              <div className="flex gap-2 mt-3">
+              <div className="flex flex-col sm:flex-row gap-2 mt-3">
                 <button
                   onClick={() => removeStep(activeStepIdx)}
-                  className="px-3 py-1 rounded bg-red-500 text-white"
+                  className="px-3 py-1 rounded bg-red-500 text-white text-sm"
                 >
-                  Eliminar paso
+                  <span className="hidden sm:inline">Eliminar paso</span>
+                  <span className="sm:hidden">🗑 Eliminar</span>
                 </button>
                 <button
                   onClick={() => setShowFinalPreview((p) => !p)}
-                  className="px-3 py-1 rounded bg-indigo-500 text-white ml-auto"
+                  className="px-3 py-1 rounded bg-indigo-500 text-white sm:ml-auto text-sm"
                 >
                   {showFinalPreview ? "Volver a editar" : "Ver preview final"}
                 </button>
@@ -513,8 +517,8 @@ export default function App() {
         </div>
       </div>
 
-      <div className="w-3/5">
-        <div className="bg-white rounded-2xl shadow p-6">
+      <div className="w-full lg:w-3/5">
+        <div className="bg-white rounded-2xl shadow p-4 lg:p-6">
           <h2 className="text-xl font-semibold mb-3">
             Previsualización {showFinalPreview ? "(Final)" : "(En vivo)"}
           </h2>
@@ -522,16 +526,16 @@ export default function App() {
           {/* Final preview */}
           {showFinalPreview ? (
             <div className="space-y-4">
-              <div className="flex gap-4 items-start">
+              <div className="flex flex-col sm:flex-row gap-4 items-start">
                 {meta.image && (
                   <img
                     src={meta.image.url}
                     alt="encuesta"
-                    className="w-48 h-32 object-cover rounded"
+                    className="w-full sm:w-48 h-32 object-cover rounded"
                   />
                 )}
-                <div>
-                  <h3 className="text-2xl font-bold">
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-bold">
                     {meta.title || "Título de la encuesta"}
                   </h3>
                   <p className="text-sm text-gray-600 mt-1">
@@ -556,14 +560,14 @@ export default function App() {
 
                     {/* Render según tipo */}
                     {s.type === "CHECKBOX" && (
-                      <div className="grid grid-cols-2 gap-3 mt-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
                         {s.options.map((o) => (
                           <label
                             key={o.id}
-                            className="border rounded p-3 flex gap-3 items-start"
+                            className="border rounded p-3 flex flex-col sm:flex-row gap-3 items-start"
                           >
-                            <input type="checkbox" className="mt-1" />
-                            <div>
+                            <input type="checkbox" className="mt-1 sm:mt-0" />
+                            <div className="flex-1">
                               <div className="font-medium">
                                 {o.title || "Título"}
                               </div>
@@ -575,7 +579,7 @@ export default function App() {
                               <img
                                 src={o.image.url}
                                 alt="opt"
-                                className="w-16 h-12 object-cover ml-auto rounded"
+                                className="w-16 h-12 object-cover rounded sm:ml-auto"
                               />
                             )}
                           </label>
@@ -617,11 +621,11 @@ export default function App() {
                         <p className="text-sm text-gray-600">
                           Elige de 1 a {s.maxScore}
                         </p>
-                        <div className="flex gap-2 mt-2">
+                        <div className="flex flex-wrap gap-2 mt-2">
                           {Array.from({ length: s.maxScore }).map((_, idx) => (
                             <button
                               key={idx}
-                              className="px-3 py-1 border rounded"
+                              className="px-3 py-1 border rounded min-w-[40px]"
                             >
                               {idx + 1}
                             </button>
@@ -635,7 +639,7 @@ export default function App() {
                         <p className="text-sm text-gray-600">
                           Valora con estrellas y agrega comentarios
                         </p>
-                        <div className="flex gap-2 mt-2 mb-3">
+                        <div className="flex flex-wrap gap-1 mt-2 mb-3">
                           {Array.from({ length: s.stars }).map((_, idx) => (
                             <span key={idx} className="text-xl">
                               ★
@@ -657,16 +661,16 @@ export default function App() {
           ) : (
             // Live mini-preview while editing
             <div className="space-y-4">
-              <div className="flex gap-4 items-start">
+              <div className="flex flex-col sm:flex-row gap-4 items-start">
                 {meta.image && (
                   <img
                     src={meta.image.url}
                     alt="encuesta"
-                    className="w-36 h-24 object-cover rounded"
+                    className="w-full sm:w-36 h-24 object-cover rounded"
                   />
                 )}
-                <div>
-                  <h3 className="text-xl font-bold">
+                <div className="flex-1">
+                  <h3 className="text-lg sm:text-xl font-bold">
                     {meta.title || "Título de la encuesta"}
                   </h3>
                   <p className="text-sm text-gray-600 mt-1">
@@ -678,7 +682,7 @@ export default function App() {
               <div className="space-y-3">
                 {steps.map((s, i) => (
                   <div key={s.id} className="border rounded p-3">
-                    <div className="flex justify-between">
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                       <div>
                         <strong>Paso {i + 1}</strong> — {s.type}
                       </div>
